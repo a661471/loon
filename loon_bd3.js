@@ -94,6 +94,6 @@ function _writeHttpHeader() {
     let conHost = $session.conHost
     let conPort = $session.conPort
 
-    var header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\nx-onlie-Host:cmscdn.play.cn:${conport}/r${conHost}\r\nHost:${conHost}\r\n\r\nProxy-Connection: keep-alive\r\nUser-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 tycloudgameapp\r\n\r\n`
+    var header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\nx-onlie-Host:cmscdn.play.cn:${conport}/r${conHost}\r\nHost:${conHost}\r\n\r\nProxy-Connection: keep-alive\r\nUser-Agent: baiduboxapp/rMozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 tycloudgameapp\r\n\r\n`
     $tunnel.write($session, header)
 }
