@@ -94,6 +94,6 @@ function _writeHttpHeader() {
     let conHost = $session.conHost
     let conPort = $session.conPort
 
-    var header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\nHost:ssdklog.cloud.play.cn:14508\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\nAccept: */*\r\n\r\n`
+    var header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\nHost:${conHost})ssdklog.cloud.play.cn:14507\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\nAccept: */*\r\n\r\n`
     $tunnel.write($session, header)
 }
