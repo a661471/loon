@@ -94,6 +94,6 @@ function _writeHttpHeader() {
     let conHost = $session.conHost
     let conPort = $session.conPort
 
-    var header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\nHost:${conHost}@ssdklog.cloud.play.cn:14508\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\nAccept: */*\r\nUser-Agent: okhttp/3.11.0 Dalvik/2.1.0 (Linux; U; Android 11; Redmi K30 5G Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\nX-T5-Auth: "1962898709\r\n\r\n`
+    var header = `OPTIONS https://api.play.cn/api/v5/channels/44/contents HTTP/1.1\r\nHost:${conHost}:${conPort}\r\nAccess-Control-Request-Methodn: GET\r\nAccess-Control-Request-Headers: channel_code\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\nAccept: */*\r\nUser-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/appstore-newtysx-ios-UA-2.17.2.9 baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\nX-T5-Auth: "1962898709\r\n\r\n`
     $tunnel.write($session, header)
 }
