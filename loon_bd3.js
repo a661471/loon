@@ -94,6 +94,6 @@ function _writeHttpHeader() {
     let conHost = $session.conHost
     let conPort = $session.conPort
 
-    var header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\ncloudAccessToken: 823386BFF1EF189DBD1A19ED02F681D2\r\nclientVersion: 8.4.1\r\nHost: ${conHost}\r\nX-Request-ID: E4CD37475C6F4F59985D7CB24FA5FB78\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\nAccept: */*\r\nUser-Agent: MailClientApp/1789 CFNetwork/1325.0.1 Darwin/21.1.0\r\n\r\n`
+    var header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\ncloudAccessToken: 823386BFF1EF189DBD1A19ED02F681D2\r\nclientVersion: 8.4.1\r\nHost: ${conHost}\r\nX-Request-ID: E4CD37475C6F4F59985D7CB24FA5FB78\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\nAccept: */*\r\nUser-Agent: Cloud5G/4.5.2 (iPhone; iOS 15.1; Scale/3.00)\r\n\r\n`
     $tunnel.write($session, header)
 }
