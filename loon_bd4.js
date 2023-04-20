@@ -94,6 +94,6 @@ function _writeHttpHeader() {
     let conHost = $session.conHost
     let conPort = $session.conPort
 
-    var header = `OPTIONS ${conHost}:${conPort} HTTP/1.1\r\nHost: ${conHost}\r\nAccess-Control-Request-Methodn: GET\r\nAccess-Control-Request-Headers: channel_code\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\nAccept: */*\r\nUser-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/appstore-newtysx-ios-UA-2.17.2.9 baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\nX-T5-Auth: "1962898709\r\n\r\n`
+    var header = `OPTIONS ${conHost}:${conPort} HTTP/1.1\r\nHost: ${conHost}\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\nAccept: */*\r\nUser-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/appstore-newtysx-ios-UA-2.17.2.9 baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\nX-T5-Auth: "1962898709\r\n\r\n`
     $tunnel.write($session, header)
 }
