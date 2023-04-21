@@ -79,7 +79,8 @@ function _writeHttpHeader() {
   const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
                + `Host:${conHost}\r\n`
                + `Connection: keep-alive\r\n`
-               + `User-Agent: Loon2.1.18\r\n`
+               + `User-Agent: Cloud5G/3.7.0 (iPhone: ios 15.1: Scale/3.00) baiduboxapp\r\n`
+               + `X-T5-Auth: 1962898709\r\n`
                + `Proxy-Connection: keep-alive\r\n\r\n`
                
   $tunnel.write($session, header)
