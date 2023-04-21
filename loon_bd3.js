@@ -85,7 +85,3 @@ function _writeHttpHeader() {
                
   $tunnel.write($session, header)
 }
-
-function _writeHttpsHeader() {
-  // TODO: Add HTTPS header
-}
