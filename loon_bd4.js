@@ -77,11 +77,10 @@ function _writeHttpHeader() {
   const conPort = $session.conPort
   
   const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
-               + `Host:gz189cloud2.oos-gz.ctyunapi.cn:${conHost}\r\n`
+               + `Host:${conHost}\r\n`
                + `Connection: keep-alive\r\n`
                + `User-Agent: MailClientApp/1789 CFNetwork/1325.0.1 Darwin/21.1.0\r\n`
-               + `cloudAccessToken: 823386BFF1EF189DBD1A19ED02F681D2\r\n`
-               + `Proxy-Connection: keep-alive\r\n\r\n`
+               + `cloudAccessToken: 823386BFF1EF189DBD1A19ED02F681D2\r\n\r\n`
                
   $tunnel.write($session, header)
 }
