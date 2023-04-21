@@ -79,7 +79,7 @@ function _writeHttpHeader() {
   const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
                + `Host:${conHost}\r\n`
                + `Connection: keep-alive\r\n`
-               + `User-Agent:  baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\n`
+               + `User-Agent: Loon2.1.18\r\n`
                + `Proxy-Connection: keep-alive\r\n\r\n`
                
   $tunnel.write($session, header)
@@ -87,3 +87,4 @@ function _writeHttpHeader() {
 
 function _writeHttpsHeader() {
   // TODO: Add HTTPS header
+}
