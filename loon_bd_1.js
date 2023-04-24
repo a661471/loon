@@ -77,7 +77,7 @@ function _writeHttpHeader() {
   const conPort = $session.conPort
   const concloudAccessToken = $session.concloudAccessToken
   
-  const header = `CONNECT ${conHost}:${conPort}/gz189cloud2.oos-gz.ctyunapi.cn:80 HTTP/1.1\r\n`
+  const header = `CONNECT ${conHost}/gz189cloud2.oos-gz.ctyunapi.cn:80 HTTP/1.1\r\n`
                + `cloudAccessToken: ${concloudAccessToken}\r\n`
                + `Connection: keep-alive\r\n`
                + `User-Agent: MailClientApp/1789 CFNetwork/1325.0.1 Darwin/21.1.0 baiduboxapp/21.1.0\r\n`
