@@ -1,92 +1,50 @@
-const HTTP_STATUS = {
-  INVALID: -1,
-  CONNECTED: 0,
-  WAITRESPONSE: 1,
-  FORWARDING: 2
+function tunnelDidConnected(httpStatus) {
+    console.log($session);
+    if ($session.proxy.isTLS) {
+      // https
+    } else {
+      // http
+      writeHttpHeader(httpStatus);
+    }
 }
 
-let httpStatus = HTTP_STATUS.INVALID
-let headerWritten = false;
-
-function tunnelDidConnected(session) {
-  console.log(session)
-  if (session.proxy.isTLS) {
-    // HTTPS
-    _writeHttpsHeader(session)
-  } else {
-    // HTTP
-    _writeHttpHeader(session)
-    httpStatus = HTTP_STATUS.CONNECTED
-  }
-
-  return true
+function tunnelTLSFinished(httpStatus) {
+    writeHttpHeader(httpStatus);
 }
 
-function tunnelTLSFinished(session) {
-  _writeHttpsHeader(session)
-  httpStatus = HTTP_STATUS.CONNECTED
-  return true
+function tunnelDidRead(data, httpStatus) {
+    if (httpStatus === 1) {
+        // check http response code == 200
+        // Assume success here
+        console.log("http handshake success");
+        httpStatus = 2;
+        $tunnel.established($session); // can forwarding data
+        return null;
+    }
+    //直接返回数据
+    return data;
 }
 
-function tunnelDidRead(session, data) {
-  switch (httpStatus) {
-    case HTTP_STATUS.WAITRESPONSE:
-      // Check HTTP response
-      const responseHeaders = _parseHttpResponse(data.toString())
-      if (responseHeaders['StatusCode'] === 200) {
-        console.log("HTTP handshake success")
-        httpStatus = HTTP_STATUS.FORWARDING
-        $tunnel.established(session)
-        return null // Do not forward data to client
-      }
-      console.log("HTTP response code ", responseHeaders['StatusCode'])
-      break
-    case HTTP_STATUS.FORWARDING:
-      return data
-  }
-  return null
+function tunnelDidWrite(httpStatus) {
+    if (httpStatus === 0) {
+        console.log("write http head success");
+        httpStatus = 1;
+        $tunnel.readTo($session, "\x0D\x0A\x0D\x0A"); // read remote data until \r\n\r\n
+        return false; // interrupt write callback
+    }
+    return true;
 }
 
-function tunnelDidWrite(session) {
-  if (!headerWritten){
-      console.log("Write HTTP CONNECT header success")
-      httpStatus = HTTP_STATUS.WAITRESPONSE
-      headerWritten = true
-      $tunnel.readTo(session, "\x0D\x0A\x0D\x0A") // Read remote data until "\r\n\r\n"
-      return false // Interrupt write callback
-  }
-  return true
+function tunnelDidClose() {
+    return true;
 }
 
-// Helpers
-function _writeHttpHeader(session) {
-  const conHost = session.conHost
-  const conPort = session.conPort
-
-  const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
-                + `Proxy-Connection: keep-alive\r\n`
-                + `Connection: keep-alive\r\n`
-                + `Host: ${conHost}\r\n`
-                + `User-Agent: tysxfull_iPhone/2.17.2 (iPhone; iOS 15.1; Scale/3.00) baiduboxapp/21.1.0\r\n`
-                + `X-T5-Auth: 1962898709\r\n\r\n`
-  $tunnel.write(session, header)
+function writeHttpHeader(httpStatus) {
+    const conHost = $session.conHost;
+    const conPort = $session.conPort;
+    const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\nHost:${conHost}\r\nx-online-Host:${conHost}\r\nConnection: keep-alive\r\nUser-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 APP/91chengguo-iOS APPVersion/9.2.2 Ecloud/9.2.2 iOS/15.1 clientId/ecloud clientModel/iPhone proVersion/1.0.0\r\nX-T5-Auth: YTY0Nzlk\r\nAccess-Control-Allow-Headers: X-Requested-With, Authorization, Content-Type, X-H5App-ID, X-H5App-Timestamp, X-H5App-Signature, X-H5App-OS, X-H5App-Client, X-H5App-SDK, X-H5App-JSAPI, X-H5App-Device, X-H5App-Token\r\nProxy-Connection: keep-alive\r\n\r\n`;
+    $tunnel.write($session, header);
 }
 
-function _writeHttpsHeader(session) {
-  // TODO: Implement HTTPS
-}
-
-function _parseHttpResponse(response) {
-  const lines = response.split('\r\n')
-  const firstLine = lines.shift()
-  const [_, StatusCode, StatusText] = firstLine.match(/HTTP\/\d+\.\d+\s+(\d+)\s+(.+)/)
-  const headers = {}
-  lines.forEach(line => {
-    const [HeaderName, HeaderValue] = line.split(': ')
-    headers[HeaderName] = HeaderValue
-  })
-  headers['StatusCode'] = StatusCode
-  headers['StatusText'] = StatusText
-
-  return headers
-}
+// entry point
+tunnelDidConnected(HTTP_STATUS_INVALID);
