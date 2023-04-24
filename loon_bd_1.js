@@ -1,4 +1,3 @@
-//HTTP请求状态
 const HTTP_STATUS = {
   INVALID: -1,
   CONNECTED: 0,
@@ -7,73 +6,87 @@ const HTTP_STATUS = {
 }
 
 let httpStatus = HTTP_STATUS.INVALID
-let tcpSocket = null
+let headerWritten = false;
 
-function tunnelDidConnect() {
-  //建立TCP连接
-  tcpSocket = $socket.createTCP('remote address', port)
-
-  tcpSocket.connect()
-
-  return true
-}
-
-function tunnelDidClose() {
-  if (tcpSocket) {
-    tcpSocket.close()
+function tunnelDidConnected(session) {
+  console.log(session)
+  if (session.proxy.isTLS) {
+    // HTTPS
+    _writeHttpsHeader(session)
+  } else {
+    // HTTP
+    _writeHttpHeader(session)
+    httpStatus = HTTP_STATUS.CONNECTED
   }
+
   return true
 }
 
-function tunnelTLSFinished() {
-  //使用TLS/SSL
-  tcpSocket.useSSL(true)
-  _writeHeader()
+function tunnelTLSFinished(session) {
+  _writeHttpsHeader(session)
   httpStatus = HTTP_STATUS.CONNECTED
   return true
 }
 
-function tunnelDidRead(data) {
+function tunnelDidRead(session, data) {
   switch (httpStatus) {
     case HTTP_STATUS.WAITRESPONSE:
-      //检查HTTP响应代码==200（或其他代码）
-      //假设在此处成功
-      console.log('HTTP handshake success')
-      httpStatus = HTTP_STATUS.FORWARDING
-      $tunnel.established($session)
-      return null //不要将数据转发给客户端
-
+      // Check HTTP response
+      const responseHeaders = _parseHttpResponse(data.toString())
+      if (responseHeaders['StatusCode'] === 200) {
+        console.log("HTTP handshake success")
+        httpStatus = HTTP_STATUS.FORWARDING
+        $tunnel.established(session)
+        return null // Do not forward data to client
+      }
+      console.log("HTTP response code ", responseHeaders['StatusCode'])
+      break
     case HTTP_STATUS.FORWARDING:
       return data
-
-    default:
-      return null
   }
+  return null
 }
 
-function tunnelDidWrite() {
-  switch (httpStatus) {
-    case HTTP_STATUS.CONNECTED:
-      console.log('Write HTTP CONNECT header success')
+function tunnelDidWrite(session) {
+  if (!headerWritten){
+      console.log("Write HTTP CONNECT header success")
       httpStatus = HTTP_STATUS.WAITRESPONSE
-      //读取远程数据，直到“\r\n\r\n”
-      $tunnel.readTo($session, '\x0D\x0A\x0D\x0A')
-      //中断写回调
-      return false
-
-    default:
-      return true
+      headerWritten = true
+      $tunnel.readTo(session, "\x0D\x0A\x0D\x0A") // Read remote data until "\r\n\r\n"
+      return false // Interrupt write callback
   }
+  return true
 }
 
-//帮助器函数
-function _writeHeader() {
-  if (tcpSocket) {
-    const conHost = $session.conHost
-    const conPort = $session.conPort
+// Helpers
+function _writeHttpHeader(session) {
+  const conHost = session.conHost
+  const conPort = session.conPort
 
-    const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n` + `cloudAccessToken: 823386BFF1EF189DBD1A19ED02F681D2\r\n` + `Proxy-Connection: keep-alive\r\n` + `Connection: keep-alive\r\n` + `User-Agent: MailClientApp/1789 CFNetwork/1325.0.1 Darwin baiduboxapp/21.1.0\r\n` + `X-T5-Auth: 1962898709\r\n` + `clientVersion: 8.4.1\r\n\r\n`
+  const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
+                + `Proxy-Connection: keep-alive\r\n`
+                + `Connection: keep-alive\r\n`
+                + `Host: ${conHost}\r\n`
+                + `User-Agent: tysxfull_iPhone/2.17.2 (iPhone; iOS 15.1; Scale/3.00) baiduboxapp/21.1.0\r\n`
+                + `X-T5-Auth: 1962898709\r\n\r\n`
+  $tunnel.write(session, header)
+}
 
-    tcpSocket.write(header)
-  }
+function _writeHttpsHeader(session) {
+  // TODO: Implement HTTPS
+}
+
+function _parseHttpResponse(response) {
+  const lines = response.split('\r\n')
+  const firstLine = lines.shift()
+  const [_, StatusCode, StatusText] = firstLine.match(/HTTP\/\d+\.\d+\s+(\d+)\s+(.+)/)
+  const headers = {}
+  lines.forEach(line => {
+    const [HeaderName, HeaderValue] = line.split(': ')
+    headers[HeaderName] = HeaderValue
+  })
+  headers['StatusCode'] = StatusCode
+  headers['StatusText'] = StatusText
+
+  return headers
 }
