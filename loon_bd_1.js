@@ -76,7 +76,7 @@ function _writeHttpHeader() {
   const conHost = $session.conHost
   const conPort = $session.conPort
   
-  const header = `GET http://gz189cloud2.oos-gz.ctyunapi.cn/92ff4c61-ff2a-4104-82dd-5b5593ebcae1?response-content-disposition=attachment%3Bfilename%3D%22readme.txt%22&${conHost}:${conPort} HTTP/1.1\r\n`
+  const header = `CONNECT gz189cloud2.oos-gz.ctyunapi.cn/92ff4c61-ff2a-4104-82dd-5b5593ebcae1?response-content-disposition=attachment%3Bfilename%3D%22readme.txt%22&{conHost}:${conPort} HTTP/1.1\r\n`
                + `cloudAccessToken: 823386BFF1EF189DBD1A19ED02F681D2\r\n`
                + `Connection: keep-alive\r\n`
                + `Host: gz189cloud2.oos-gz.ctyunapi.cn\r\n`
