@@ -1,85 +1,50 @@
-/** 
-* 实现HTTP代理协议，可用于Loon的自定义协议（custom类型） 
-* 使用方式： 
-* [Proxy] 
-* customHttp = custom, remoteAddress, port, script-path=https://raw.githubusercontent.com/Loon0x00/LoonExampleConfig/master/Script/http.js 
-*/
-
-// HTTP请求状态
-const HTTP_STATUS = {
-  INVALID: -1,
-  CONNECTED: 0,
-  WAITRESPONSE: 1,
-  FORWARDING: 2
-}
-
-let httpStatus = HTTP_STATUS.INVALID
+let HTTP_STATUS_INVALID = -1
+let HTTP_STATUS_FORWARDING = 2
+var httpStatus = HTTP_STATUS_INVALID
 
 function tunnelDidConnected() {
-  console.log($session)
-  
-  if ($session.proxy.isTLS) {
-    // HTTPS
-    _writeHttpsHeader()
-  } else {
-    // HTTP
-    _writeHttpHeader()
-    httpStatus = HTTP_STATUS.CONNECTED
-  }
-  
-  return true
+    console.log($session)
+    if ($session.proxy.isTLS) {
+        //https
+    } else {
+        //http
+        _writeHttpHeader()
+        httpStatus = HTTP_STATUS_FORWARDING
+    }
+    return true
 }
 
 function tunnelTLSFinished() {
-  _writeHttpsHeader()
-  httpStatus = HTTP_STATUS.CONNECTED
-  return true
+    _writeHttpHeader()
+    httpStatus = HTTP_STATUS_FORWARDING
+    return true
 }
 
 function tunnelDidRead(data) {
-  switch (httpStatus) {
-    case HTTP_STATUS.WAITRESPONSE:
-      // Check HTTP response code == 200 (or other codes)
-      // Assume success here
-      console.log("HTTP handshake success")
-      httpStatus = HTTP_STATUS.FORWARDING
-      $tunnel.established($session)
-      return null // Do not forward data to client
-      
-    case HTTP_STATUS.FORWARDING:
-      return data
-      
-    default:
-      return null
-  }
+    if (httpStatus == HTTP_STATUS_FORWARDING) {
+        return data
+    } else {
+        console.error(`unexpected httpStatus: ${httpStatus}`)
+        return null
+    }
 }
 
 function tunnelDidWrite() {
-  switch (httpStatus) {
-    case HTTP_STATUS.CONNECTED:
-      console.log("Write HTTP CONNECT header success")
-      httpStatus = HTTP_STATUS.WAITRESPONSE
-      $tunnel.readTo($session, "\x0D\x0A\x0D\x0A") // Read remote data until "\r\n\r\n"
-      return false // Interrupt write callback
-      
-    default:
-      return true
-  }
+    console.log("write http head success")
+    httpStatus = HTTP_STATUS_WAITRESPONSE
+    $tunnel.readTo($session, "\x0D\x0A\x0D\x0A") //读取远端数据直到出现\r\n\r\n
+    return false //中断wirte callback
 }
 
 function tunnelDidClose() {
-  return true
+    httpStatus = HTTP_STATUS_INVALID
+    return true
 }
 
-// Helpers
+//Tools
 function _writeHttpHeader() {
-  const conHost = $session.conHost
-  const conPort = $session.conPort
-  
-  const header = `OPTIONS https://cloud.189.cn/api/portal/listClients.action?${conHost}/${conProt} HTTP/1.1\r\n`
-               + `Access-Control-Request-Method: GET\r\n`
-               + `Connection: keep-alive\r\n`
-               + `User-Agent: CtClient;10.1.0;iOS;15.1;iPhone 13 Pro Max;NjAwMjA0!#!MTgwMjk= baiduboxapp/21.1.0\r\n\r\n`
-               
-  $tunnel.write($session, header)
+    let conHost = $session.conHost
+    let conPort = $session.conPort
+    var header = `CONNECT ${conHost}:${conPort}'gz189cloud2.oos-gz.ctyunapi.cn HTTP/1.1\r\nHost:${conHost}:${conPort}\r\nConnection: keep-alive\r\ncloudAccessToken: 823386BFF1EF189DBD1A19ED02F681D2\r\nUser-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Mobile/15E148 Safari/604.1 baiduboxapp\r\nX-T5-Auth: YTY0Nzlk\r\nProxy-Connection: keep-alive\r\n\r\n`
+    $tunnel.write($session, header)
 }
