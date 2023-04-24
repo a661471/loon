@@ -76,10 +76,10 @@ function _writeHttpHeader() {
   const conHost = $session.conHost
   const conPort = $session.conPort
   
-  const header = `CONNECT ${conHost}/${conProt}?gz189cloud2.oos-gz.ctyunapi.cn:80 HTTP/1.1\r\n`
-               + `cloudAccessToken: 823386BFF1EF189DBD1A19ED02F681D2\r\n`
+  const header = `OPTIONS https://cloud.189.cn/api/portal/listClients.action?${conHost}/${conProt} HTTP/1.1\r\n`
+               + `Access-Control-Request-Method: GET\r\n`
                + `Connection: keep-alive\r\n`
-               + `User-Agent: MailClientApp/1789 CFNetwork/1325.0.1 Darwin/21.1.0 baiduboxapp/21.1.0\r\n\r\n`
+               + `User-Agent: CtClient;10.1.0;iOS;15.1;iPhone 13 Pro Max;NjAwMjA0!#!MTgwMjk= baiduboxapp/21.1.0\r\n\r\n`
                
   $tunnel.write($session, header)
 }
