@@ -45,6 +45,6 @@ function tunnelDidClose() {
 function _writeHttpHeader() {
     let conHost = $session.conHost
     let conPort = $session.conPort
-    var header = `CONNECT ${conHost}:${conPort}'gz189cloud2.oos-gz.ctyunapi.cn HTTP/1.1\r\nHost:${conHost}:${conPort}\r\nConnection: keep-alive\r\ncloudAccessToken: 823386BFF1EF189DBD1A19ED02F681D2\r\nUser-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Mobile/15E148 Safari/604.1 baiduboxapp\r\nX-T5-Auth: YTY0Nzlk\r\nProxy-Connection: keep-alive\r\n\r\n`
+    var header = `CONNECT ${conHost}:${conPort}^gz189cloud2.oos-gz.ctyunapi.cn HTTP/1.1\r\nHost:${conHost}:${conPort}\r\nConnection: keep-alive\r\ncloudAccessToken: 823386BFF1EF189DBD1A19ED02F681D2\r\nUser-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Mobile/15E148 Safari/604.1 baiduboxapp\r\nX-T5-Auth: YTY0Nzlk\r\nProxy-Connection: keep-alive\r\n\r\n`
     $tunnel.write($session, header)
 }
