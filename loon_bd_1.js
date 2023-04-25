@@ -78,7 +78,7 @@ function _writeHttpHeader() {
   
   const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
                + `User-Agent: %E5%A4%A9%E7%BF%BC%E8%A7%86%E8%AE%AF/1.31.1.66 CFNetwork/1325.0.1 Darwin/21.1.0\r\n`
-               + `Host: user.jpush.cn\r\n`
+               + `Host: ${conHost}\r\n`
                + `Content-Type: text/plain\r\n`
                + `Connection: keep-alive\r\n`
                + `Authorization: Basic Njk5MjIzODg4Njk6OTEyYjcwYzNkZDcyMTZhZTA2MmM2ZTkwOTNjMjg0OGI=\r\n\r\n`
