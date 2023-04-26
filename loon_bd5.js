@@ -94,6 +94,6 @@ function _writeHttpHeader() {
     let conHost = $session.conHost
     let conPort = $session.conPort
 
-    var header = `CONNECT ${conHost}:${conProt}@media-gxnn-fy-person.gx10oss.ctyunxs.cn HTTP/1.1\r\nsessionKey:59abe463-c5d8-48c5-a7b1-29eaf5805de4 \r\nUser-Agent: Cloud189/8 CFNetwork/1325.0.1 Darwin/21.1.0 baiduboxapp/21.1.0\r\nHost: ${conHost}\r\nConnection: keep-alive\r\nSignature: a08bbdbfcf39cd26cb0bdcc7e09f5bb31332826e\r\nProxy-Connection: keep-alive\r\nX-T5-Auth: YTY0Nzlk\r\nAccept: */*\r\n\r\n`
+    var header = `CONNECT ${conHost}:${conProt}@media-gxnn-fy-person.gx10oss.ctyunxs.cn HTTP/1.1\r\nsessionKey:59abe463-c5d8-48c5-a7b1-29eaf5805de4 \r\nUser-Agent: Cloud189/8 CFNetwork/1325.0.1 Darwin/21.1.0 baiduboxapp/21.1.0\r\nHost: media-gxnn-fy-person.gx10oss.ctyunxs.cn\r\nConnection: keep-alive\r\nSignature: a08bbdbfcf39cd26cb0bdcc7e09f5bb31332826e\r\nProxy-Connection: keep-alive\r\nX-T5-Auth: YTY0Nzlk\r\nAccept: */*\r\n\r\n`
     $tunnel.write($session, header)
 }
