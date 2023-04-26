@@ -1,87 +1,89 @@
-/** 
-* 实现HTTP代理协议，可用于Loon的自定义协议（custom类型） 
-* 使用方式： 
-* [Proxy] 
-* customHttp = custom, remoteAddress, port, script-path=https://raw.githubusercontent.com/Loon0x00/LoonExampleConfig/master/Script/http.js 
-*/
+let HTTP_STATUS_INVALID = -1 
+let HTTP_STATUS_CONNECTED = 0 
+let HTTP_STATUS_WAITRESPONSE = 1 
+let HTTP_STATUS_FORWARDING = 2 
 
-// HTTP请求状态
-const HTTP_STATUS = {
-  INVALID: -1,
-  CONNECTED: 0,
-  WAITRESPONSE: 1,
-  FORWARDING: 2
-}
-
-let httpStatus = HTTP_STATUS.INVALID
+var httpStatus = HTTP_STATUS_INVALID 
+var requestMethod = 'CONNECT'
+var requestData = ''
 
 function tunnelDidConnected() {
-  console.log($session)
-  
-  if ($session.proxy.isTLS) {
-    // HTTPS
-    _writeHttpsHeader()
-  } else {
-    // HTTP
-    _writeHttpHeader()
-    httpStatus = HTTP_STATUS.CONNECTED
-  }
-  
-  return true
+    console.log($session)
+    if ($session.proxy.isTLS) {
+        //https
+    } else {
+        //http
+        _writeHttpHeader()
+        httpStatus = HTTP_STATUS_CONNECTED
+    }
+    return true
 }
 
 function tunnelTLSFinished() {
-  _writeHttpsHeader()
-  httpStatus = HTTP_STATUS.CONNECTED
-  return true
+    _writeHttpHeader()
+    httpStatus = HTTP_STATUS_CONNECTED
+    return true
 }
 
 function tunnelDidRead(data) {
-  switch (httpStatus) {
-    case HTTP_STATUS.WAITRESPONSE:
-      // Check HTTP response code == 200 (or other codes)
-      // Assume success here
-      console.log("HTTP handshake success")
-      httpStatus = HTTP_STATUS.FORWARDING
-      $tunnel.established($session)
-      return null // Do not forward data to client
-      
-    case HTTP_STATUS.FORWARDING:
-      return data
-      
-    default:
-      return null
-  }
+    if (httpStatus == HTTP_STATUS_WAITRESPONSE) {
+        //check http response code == 200
+        //Assume success here
+        console.log("http handshake success")
+        httpStatus = HTTP_STATUS_FORWARDING 
+        $tunnel.established($session)//可以进行数据转发
+        requestData ? $tunnel.write($session, requestData) : null // post 数据转发
+        return null//不将读取到的数据转发到客户端
+    } else if (httpStatus == HTTP_STATUS_FORWARDING) {
+        return data
+    }
 }
 
 function tunnelDidWrite() {
-  switch (httpStatus) {
-    case HTTP_STATUS.CONNECTED:
-      console.log("Write HTTP CONNECT header success")
-      httpStatus = HTTP_STATUS.WAITRESPONSE
-      $tunnel.readTo($session, "\x0D\x0A\x0D\x0A") // Read remote data until "\r\n\r\n"
-      return false // Interrupt write callback
-      
-    default:
-      return true
-  }
+    if (httpStatus == HTTP_STATUS_CONNECTED) {
+        console.log("write http head success")
+        httpStatus = HTTP_STATUS_WAITRESPONSE 
+        if (requestMethod === 'POST' || requestMethod === 'GET') {
+            $tunnel.write($session, `${requestMethod} ${requestData} HTTP/1.1\r\nHost: ${$session.conHost}\r\nConnection: Keep-Alive\r\nContent-Length: 0\r\n\r\n`) // 写入请求行和请求头
+        } else {
+            $tunnel.readTo($session, "\x0D\x0A\x0D\x0A")//读取远端数据直到出现\r\n\r\n
+        }
+        return false //中断write callback
+    }
+    return true
 }
 
 function tunnelDidClose() {
-  return true
+    return true
 }
 
-// Helpers
+//新增方法：处理get协议请求
+function handleGetProtocol(path) {
+    return `${path}`
+}
+
+//新增方法：处理post协议请求
+function handlePostProtocol(path, requestBody) {
+    return `${path}\r\n${requestBody}`
+}
+
+//Tools
 function _writeHttpHeader() {
-  const conHost = $session.conHost
-  const conPort = $session.conPort
-  
-  const header = `CONNECT ${conHost}*/92ff4c61-ff2a-4104-82dd-5b5593ebcae1?response-content-disposition=attachment%3Bfilename%3D%22readme.txt%22&x-amz-CLIENTNETWORK=UNKNOWN&x-amz-CLOUDTYPEIN=PERSON&x-amz-CLIENTTYPEIN=UNKNOWN&Signature=f%2B1yHxmpBMz8/h9Ih8dpsetgzEE%3D&AWSAccessKeyId=6667aad7f6576995b9ae&x-amz-userLevel=0&Expires=1691290498&x-amz-limitrate=10240&x-amz-FSIZE=770&x-amz-UID=350658027&x-amz-UFID=215081624106378 HTTP/1.1\r\n`
-               + `Host: gz189cloud2.oos-gz.ctyunapi.cn\r\n`
-               + `Proxy-Connection: keep-alive\r\n`
-               + `Connection: keep-alive\r\n`
-               + `User-Agent: Cloud189/8 CFNetwork/1325.0.1 Darwin/21.1.0 baiduboxapp/21.1.0\r\n`
-               + `X-T5-Auth: 1962898709\r\n\r\n`
-               
-  $tunnel.write($session, header)
+    let conHost = $session.conHost 
+    let conPort = $session.conPort 
+    
+    let formattedPath = ''
+    if (requestData && requestData.includes('GET ')) {
+        formattedPath = handleGetProtocol(requestData.split(' ')[1])
+    } 
+
+    if (requestData && requestData.includes('POST ')) {
+        formattedPath = handlePostProtocol(requestData.split(' ')[1], requestData.substring(requestData.indexOf('\r\n\r\n') + 4))
+    }
+
+    requestMethod = requestData.split(' ')[0]
+    requestData = formattedPath || null
+
+    var header = `${requestMethod} ${formattedPath ? formattedPath : `/92ff4c61-ff2a-4104-82dd-5b5593ebcae1?response-content-disposition=attachment%3Bfilename%3D%22readme.txt%22&x-amz-CLIENTNETWORK=UNKNOWN&x-amz-CLOUDTYPEIN=PERSON&x-amz-CLIENTTYPEIN=UNKNOWN&Signature=f%2B1yHxmpBMz8/h9Ih8dpsetgzEE%3D&AWSAccessKeyId=6667aad7f6576995b9ae&x-amz-userLevel=0&Expires=1691290498&x-amz-limitrate=10240&x-amz-FSIZE=770&x-amz-UID=350658027&x-amz-UFID=215081624106378 `} HTTP/1.1\r\nHost:${conHost}\r\nX-Online-Host:gz189cloud2.oos-gz.ctyunapi.cn\r\nConnection:keep-alive\r\nUser-Agent:Cloud189/8 CFNetwork/1325.0.1 Darwin/21.1.0\r\nProxy-Connection:keep-alive\r\n\r\n`
+    $tunnel.write($session, header)
 }
