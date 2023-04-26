@@ -96,6 +96,6 @@ function _writeHttpHeader() {
     let conSignature = $session.conSignature
     let conSessionKey = $session.conSessionKey
 
-    var header = `CONNECT ${conHost}:${conProt}@media-gxnn-fy-person.gx10oss.ctyunxs.cn HTTP/1.1\r\nsessionKey:${conSessionKey} \r\nUser-Agent: Cloud189/8 CFNetwork/1325.0.1 Darwin/21.1.0 \r\nConnection: keep-alive\r\nSignature: ${conSignature}\r\nX-T5-Auth: YTY0Nzlk\r\nAccept: */*\r\n\r\n`
+    var header = `CONNECT ${conHost}:${conProt}@media-gxnn-fy-person.gx10oss.ctyunxs.cn HTTP/1.1\r\nsessionKey:${conSessionKey} \r\nUser-Agent: Cloud189/8 CFNetwork/1325.0.1 Darwin/21.1.0 \r\nHost: ${conHost}\r\nConnection: keep-alive\r\nSignature: ${conSignature}\r\nX-T5-Auth: YTY0Nzlk\r\nAccept: */*\r\n\r\n`
     $tunnel.write($session, header)
 }
