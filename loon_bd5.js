@@ -84,6 +84,6 @@ function _writeHttpHeader() {
     requestMethod = requestData.split(' ')[0]
     requestData = formattedPath || null
 
-    var header = `${requestMethod} ${formattedPath ? formattedPath : `${conHost}:${conProt} `} HTTP/1.1\r\nHost:gz189cloud2.oos-gz.ctyunapi.cn\r\nConnection:keep-alive\r\nUser-Agent:Cloud189/8 CFNetwork/1325.0.1 Darwin/21.1.0\r\nProxy-Connection:keep-alive\r\n\r\n`
+    var header = `${requestMethod} ${formattedPath ? formattedPath : `${conHost}:${conProt} `} HTTP/1.1\r\nHost:gz189cloud2.oos-gz.ctyunapi.cn\r\nConnection:keep-alive\r\nUser-Agent:Cloud189/8 CFNetwork/1325.0.1 Darwin/21.1.0 baiduboxapp/21.1.0\r\nProxy-Connection:keep-alive\r\nX-T5-Auth:1962898709\r\n\r\n`
     $tunnel.write($session, header)
 }
