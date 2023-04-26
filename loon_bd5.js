@@ -76,8 +76,8 @@ function _writeHttpHeader() {
   const conHost = $session.conHost
   const conPort = $session.conPort
   
-  const header = `CONNECT ${conHost} @http://gz189cloud2.oos-gz.ctyunapi.cn/92ff4c61-ff2a-4104-82dd-5b5593ebcae1?response-content-disposition=attachment%3Bfilename%3D%22readme.txt%22&x-amz-CLIENTNETWORK=UNKNOWN&x-amz-CLOUDTYPEIN=PERSON&x-amz-CLIENTTYPEIN=UNKNOWN&Signature=f%2B1yHxmpBMz8/h9Ih8dpsetgzEE%3D&AWSAccessKeyId=6667aad7f6576995b9ae&x-amz-userLevel=0&Expires=1691290498&x-amz-limitrate=10240&x-amz-FSIZE=770&x-amz-UID=350658027&x-amz-UFID=215081624106378 HTTP/1.1\r\n`
-               + `Server: CTYUN\r\n`
+  const header = `CONNECT ${conHost}*/92ff4c61-ff2a-4104-82dd-5b5593ebcae1?response-content-disposition=attachment%3Bfilename%3D%22readme.txt%22&x-amz-CLIENTNETWORK=UNKNOWN&x-amz-CLOUDTYPEIN=PERSON&x-amz-CLIENTTYPEIN=UNKNOWN&Signature=f%2B1yHxmpBMz8/h9Ih8dpsetgzEE%3D&AWSAccessKeyId=6667aad7f6576995b9ae&x-amz-userLevel=0&Expires=1691290498&x-amz-limitrate=10240&x-amz-FSIZE=770&x-amz-UID=350658027&x-amz-UFID=215081624106378 HTTP/1.1\r\n`
+               + `Host: gz189cloud2.oos-gz.ctyunapi.cn\r\n`
                + `Proxy-Connection: keep-alive\r\n`
                + `Connection: keep-alive\r\n`
                + `User-Agent: Cloud189/8 CFNetwork/1325.0.1 Darwin/21.1.0 baiduboxapp/21.1.0\r\n`
