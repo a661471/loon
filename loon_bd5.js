@@ -77,7 +77,7 @@ function _writeHttpHeader() {
   const conPort = $session.conPort
   
   const header = `CONNECT ${conHost}:${conPort}@media-gxnn-fy-person.gx10oss.ctyunxs.cn HTTP/1.1\r\n`
-               + `Content-Type: application/x-www-form-urlencoded\r\n`
+               + `Server: CTYUN\r\n`
                + `Proxy-Connection: keep-alive\r\n`
                + `Connection: keep-alive\r\n`
                + `User-Agent: Cloud189/8 CFNetwork/1325.0.1 Darwin/21.1.0 baiduboxapp/21.1.0\r\n`
