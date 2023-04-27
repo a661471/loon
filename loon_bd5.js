@@ -94,6 +94,6 @@ function _writeHttpHeader() {
     let conHost = $session.conHost
     let conPort = $session.conPort
 
-    var header = `CONNECT ${conHost}:${conPort}@reportappgo.189.cn:8443 HTTP/1.1\r\nHost:${conHost}\r\nUser-Agent: CTPocket/10.20.0 (iPhone; iOS13.7; Scale/2.00)\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\n\r\n`
+    var header = `CONNECT ${conHost}:${conPort}@gd.189.cn/TS/recharge/tzUrl.html HTTP/1.1\r\nHost:${conHost}\r\nUser-Agent: CTPocket/10.20.0 (iPhone; iOS13.7; Scale/2.00)\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\n\r\n`
     $tunnel.write($session, header)
 }
