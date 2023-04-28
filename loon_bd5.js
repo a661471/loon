@@ -94,6 +94,6 @@ function _writeHttpHeader() {
     let conHost = $session.conHost
     let conPort = $session.conPort
 
-    var header = `CONNECT ${conHost}:${conPort}@gd.189.cn/TS/recharge/tzUrl.html HTTP/1.1\r\nHost:${conHost}\r\nUser-Agent: CTPocket/10.20.0 (iPhone; iOS13.7; Scale/2.00)\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\n\r\n`
+    var header = `CONNECT ${conHost}:${conPort}@/cloud189-shzh-person.oos-gdsz.ctyunapi.cn:443 HTTP/1.1\r\nHost:${conHost}\r\nUser-Agent: Cloud5G/3.7.0 (iPhone: ios 15.1: Scale/3.00 :cloud189-shzh-person.oos-gdsz.ctyunapi.cn) baiduboxapp\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\nProxy-Server: CTYUN\r\nX-T5-Auth: 1962898709\r\n\r\n`
     $tunnel.write($session, header)
 }
