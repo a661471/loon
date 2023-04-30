@@ -54,6 +54,6 @@ function tunnelDidClose() {
 function _writeHttpHeader(method) {
     let conHost = $session.conHost
     let conPort = $session.conPort
-    var header = `${method} ${conHost}:${conPort}@/cloud189-shzh-person.oos-gdsz.ctyunapi.cn:443 HTTP/1.1\r\nHost:${conHost}\r\nUser-Agent: Cloud5G/3.7.0 (iPhone: ios 15.1: Scale/3.00 :cloud189-shzh-person.oos-gdsz.ctyunapi.cn) baiduboxapp\r\nConnection: keep-alive\r\nProxy-Connection: keep-alive\r\nProxy-Server: CTYUN\r\nX-T5-Auth: 1962898709\r\n\r\n`
+    var header = `${method} https://api.play.cn/api/v5/channels/44/contents HTTP/1.1\r\nHost:${conHost}\r\nUser-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/appstore-newtysx-ios-UA-2.17.2.9\r\nConnection: keep-alive\r\nOrigin: https://h5.play.cn\r\nAccess-Control-Request-Method: GET\r\nAccess-Control-Request-Headers: channel_code\r\n\r\n`
     $tunnel.write($session, header)
 }
