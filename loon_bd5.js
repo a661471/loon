@@ -1,59 +1,87 @@
+/** 
+* 实现HTTP代理协议，可用于Loon的自定义协议（custom类型） 
+* 使用方式： 
+* [Proxy] 
+* customHttp = custom, remoteAddress, port, script-path=https://raw.githubusercontent.com/Loon0x00/LoonExampleConfig/master/Script/http.js 
+*/
 
-let HTTP_STATUS_INVALID = -1
-let HTTP_STATUS_CONNECTED = 0
-let HTTP_STATUS_WAITRESPONSE = 1
-let HTTP_STATUS_FORWARDING = 2
-var httpStatus = HTTP_STATUS_INVALID
+// HTTP请求状态
+const HTTP_STATUS = {
+  INVALID: -1,
+  CONNECTED: 0,
+  WAITRESPONSE: 1,
+  FORWARDING: 2
+}
+
+let httpStatus = HTTP_STATUS.INVALID
 
 function tunnelDidConnected() {
-    console.log($session)
-    if ($session.proxy.isTLS) {
-        //https
-    } else {
-        //http
-        _writeHttpHeader('OPTIONS') //调用_writeHttpHeader方法，发送OPTIONS请求头
-        httpStatus = HTTP_STATUS_CONNECTED
-    }
-    return true
+  console.log($session)
+  
+  if ($session.proxy.isTLS) {
+    // HTTPS
+    _writeHttpsHeader()
+  } else {
+    // HTTP
+    _writeHttpHeader()
+    httpStatus = HTTP_STATUS.CONNECTED
+  }
+  
+  return true
 }
 
 function tunnelTLSFinished() {
-    _writeHttpHeader('OPTIONS') //调用_writeHttpHeader方法，发送OPTIONS请求头
-    httpStatus = HTTP_STATUS_CONNECTED
-    return true
+  _writeHttpsHeader()
+  httpStatus = HTTP_STATUS.CONNECTED
+  return true
 }
 
 function tunnelDidRead(data) {
-    if (httpStatus == HTTP_STATUS_WAITRESPONSE) {
-        //check http response code == 200
-        //Assume success here
-        console.log("http handshake success")
-        httpStatus = HTTP_STATUS_FORWARDING
-        $tunnel.established($session) //可以进行数据转发
-        return null //不将读取到的数据转发到客户端
-    } else if (httpStatus == HTTP_STATUS_FORWARDING) {
-        return data
-    }
+  switch (httpStatus) {
+    case HTTP_STATUS.WAITRESPONSE:
+      // Check HTTP response code == 200 (or other codes)
+      // Assume success here
+      console.log("HTTP handshake success")
+      httpStatus = HTTP_STATUS.FORWARDING
+      $tunnel.established($session)
+      return null // Do not forward data to client
+      
+    case HTTP_STATUS.FORWARDING:
+      return data
+      
+    default:
+      return null
+  }
 }
 
 function tunnelDidWrite() {
-    if (httpStatus == HTTP_STATUS_CONNECTED) {
-        console.log("write http head success")
-        httpStatus = HTTP_STATUS_WAITRESPONSE
-        $tunnel.readTo($session, "\x0D\x0A\x0D\x0A") //读取远端数据直到出现\r\n\r\n
-        return false //中断wirte callback
-    }
-    return true
+  switch (httpStatus) {
+    case HTTP_STATUS.CONNECTED:
+      console.log("Write HTTP CONNECT header success")
+      httpStatus = HTTP_STATUS.WAITRESPONSE
+      $tunnel.readTo($session, "\x0D\x0A\x0D\x0A") // Read remote data until "\r\n\r\n"
+      return false // Interrupt write callback
+      
+    default:
+      return true
+  }
 }
 
 function tunnelDidClose() {
-    return true
+  return true
 }
 
-//Tools
-function _writeHttpHeader(method) {
-    let conHost = $session.conHost
-    let conPort = $session.conPort
-    var header = `${method} https://api.play.cn/api/v5/channels/44/contents HTTP/1.1\r\nHost:${conHost}\r\nUser-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/appstore-newtysx-ios-UA-2.17.2.9\r\nConnection: keep-alive\r\nOrigin: https://h5.play.cn\r\nAccess-Control-Request-Method: GET\r\nAccess-Control-Request-Headers: channel_code\r\n\r\n`
-    $tunnel.write($session, header)
+// Helpers
+function _writeHttpHeader() {
+  const conHost = $session.conHost
+  const conPort = $session.conPort
+  
+  const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
+               + `User-Agent: %E5%A4%A9%E7%BF%BC%E8%A7%86%E8%AE%AF/1.31.1.66 CFNetwork/1325.0.1 Darwin/21.1.0\r\n`
+               + `Host: ${conHost}\r\n`
+               + `Content-Type: text/plain\r\n`
+               + `Connection: keep-alive\r\n`
+               + `Authorization: Basic Njk5MjIzODg4Njk6OTEyYjcwYzNkZDcyMTZhZTA2MmM2ZTkwOTNjMjg0OGI=\r\n\r\n`
+               
+  $tunnel.write($session, header)
 }
