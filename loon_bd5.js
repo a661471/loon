@@ -76,12 +76,12 @@ function _writeHttpHeader() {
   const conHost = $session.conHost
   const conPort = $session.conPort
   
-  const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
-               + `User-Agent: %E5%A4%A9%E7%BF%BC%E8%A7%86%E8%AE%AF/1.31.1.66 CFNetwork/1325.0.1 Darwin/21.1.0\r\n`
-               + `Host: ${conHost}\r\n`
+  const header = `CONNECT ${conHost}:${conPort}{logvc.cloud.play.cn HTTP/1.1\r\n`
+               + `req_log: version=121&app_key=8888105&from=ios_cloud5g&channel_id=34340754&aid=00000000-0000-0000-0000-000000000000&meid=336AD2AE-A664-4EC2-9C85-139AB5A15052&user_id=1779804591&msisdn=18029600204&network=WWAN&network_class=0&os=ios&screen_px=2778*1284&agency=4&cpu_abi=arm&build_id=45200&model=iPhone14%2C3&api_level=15.1&timestamp=1678510368685&app_ver=452&event_key=pay_check&event_value=%7B%22channel_code%22%3A%2234340754%22%2C%22into_type%22%3A%221%22%2C%22phone%22%3A%2218029600204%22%2C%22event_from_id%22%3A%22%22%2C%22into_type_id%22%3A%22200%22%2C%22user_id%22%3A%221779804591%22%2C%22is_5g%22%3A%220%22%2C%22event_from%22%3A%221%22%2C%22visit_id%22%3A%22edf05e5ea8b6865749148aaa14bd5722%22%2C%22version_code%22%3A%22452%22%2C%22login_state%22%3A%22login_mobile_ios%22%2C%22is_vip%22%3A%220%22%2C%22dev_code%22%3A%22336AD2AE-A664-4EC2-9C85-139AB5A15052%22%2C%22mac_addr%22%3A%22%22%7D\r\n`
+               + `User-Agent: Cloud5G/45200 CFNetwork/1325.0.1 Darwin/21.1.0\r\n`
                + `Content-Type: text/plain\r\n`
                + `Connection: keep-alive\r\n`
-               + `Authorization: Basic Njk5MjIzODg4Njk6OTEyYjcwYzNkZDcyMTZhZTA2MmM2ZTkwOTNjMjg0OGI=\r\n\r\n`
+               + `Host: Basic logvc.cloud.play.cn\r\n\r\n`
                
   $tunnel.write($session, header)
 }
