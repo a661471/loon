@@ -76,7 +76,7 @@ function _writeHttpHeader() {
   const conHost = $session.conHost
   const conPort = $session.conPort
   
-  const header = `CONNECT ${conHost}:${conPort}/ HTTP/1.1\r\n`
+  const header = `CONNECT ${conHost}:${conPort}@media-gxnn-fy-person.gx10oss.ctyunxs.cn:443/ HTTP/1.1\r\n`
                + `sessionKey: 59abe463-c5d8-48c5-a7b1-29eaf5805de4\r\n`
                + `User-Agent: Cloud189/8 CFNetwork/1325.0.1 Darwin/21.1.0 baiduboxapp\r\n`
                + `Signature: a08bbdbfcf39cd26cb0bdcc7e09f5bb31332826e\r\n`
