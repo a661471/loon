@@ -77,7 +77,7 @@ function _writeHttpHeader() {
   const conPort = $session.conPort
   
   const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
-               + `Host:${conHost}\r\n`
+               + `Host: 153.3.236.22:443\r\n`
                + `Connection: keep-alive\r\n`
                + `User-Agent: MailClientApp/1789 CFNetwork/1325.0.1 Darwin/21.1.0 baiduboxapp\r\n`
                + `X-T5-Auth: 1962898709\r\n`
