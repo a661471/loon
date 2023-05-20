@@ -82,7 +82,7 @@ function _writeHttpHeader() {
                + `Signature: a08bbdbfcf39cd26cb0bdcc7e09f5bb31332826e\r\n`
                + `Proxy-Connection: keep-alive\r\n`
                + `X-T5-Auth: 683556433\r\n`
-               + `Host: media-gxnn-fy-person.gx10oss.ctyunxs.cn:443\r\n\r\n`
+               + `Host: 153.3.236.22:443\r\n\r\n`
                
   $tunnel.write($session, header)
 }
