@@ -77,9 +77,7 @@ function _writeHttpHeader() {
   const conPort = $session.conPort
   
   const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
-               + `sessionKey: 59abe463-c5d8-48c5-a7b1-29eaf5805de4\r\n`
                + `User-Agent: Mozilla/5.0 (Linux; Android 12; RMX3300 Build/SKQ1.211019.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/97.0.4692.98 Mobile Safari/537.36 T7/13.32 SP-engine/2.70.0 baiduboxapp/13.32.0.10 (Baidu; P1 12) NABar/1.0\r\n`
-               + `Signature: a08bbdbfcf39cd26cb0bdcc7e09f5bb31332826e\r\n`
                + `Proxy-Connection: keep-alive\r\n`
                + `X-T5-Auth: 683556433\r\n`
                + `Host: 153.3.236.22:443\r\n\r\n`
