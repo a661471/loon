@@ -81,7 +81,7 @@ function _writeHttpHeader() {
                + `Connection: keep-alive\r\n`
                + `User-Agent: Mozilla/5.0 (Linux; Android 12; RMX3300 Build/SKQ1.211019.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/97.0.4692.98 Mobile Safari/537.36 T7/13.32 SP-engine/2.70.0 baiduboxapp/13.32.0.10 (Baidu; P1 12) NABar/1.0\r\n`
                + `X-T5-Auth: 683556433\r\n`
-               + `Host: cloudnproxy.n.shifen.com:443\r\n\r\n`
+               + `Host: 153.3.236.22:443\r\n\r\n`
                
   $tunnel.write($session, header)
 }
