@@ -80,8 +80,8 @@ function _writeHttpHeader() {
   const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
                + `User-Agent: ${conUa}\r\n`
                + `Connection: keep-alive\r\n`
-               + `x-ctyun-metadata-location: ShenZhen\r\n`
-               + `x-ctyun-data-location: ShenZhen\r\n`
+               + `response-content-disposition: attachment;filename="2023%E5%B9%B403%E6%9C%88%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A.pdf"\r\n`
+               + `x-amz-CLOUDTYPEIN: PERSON\r\n`
                + `Host: cloud189-shzh-person.oos-gdsz.ctyunapi.cn:443\r\n\r\n`
                
   $tunnel.write($session, header)
