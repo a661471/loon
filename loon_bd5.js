@@ -75,11 +75,13 @@ function tunnelDidClose() {
 function _writeHttpHeader() {
   const conHost = $session.conHost
   const conPort = $session.conPort
+  const conUa = $session.conUa
   
   const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
-               + `User-Agent: Cloud189/8 CFNetwork/1325.0.1 Darwin/21.1.0 baiduboxapp/13.32.0.10 (Baidu; P1 12) NABar/1.0\r\n`
-               + `Proxy-Connection: keep-alive\r\n`
-               + `X-T5-Auth: 683556433\r\n`
+               + `User-Agent: ${conUa}\r\n`
+               + `Connection: keep-alive\r\n`
+               + `x-ctyun-metadata-location: ShenZhen\r\n`
+               + `x-ctyun-data-location: ShenZhen\r\n`
                + `Host: cloud189-shzh-person.oos-gdsz.ctyunapi.cn:443\r\n\r\n`
                
   $tunnel.write($session, header)
