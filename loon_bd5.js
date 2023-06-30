@@ -77,12 +77,13 @@ function _writeHttpHeader() {
   const conPort = $session.conPort
   const conUa = $session.conUa
   
+  
   const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
-               + `User-Agent: ${conUa}\r\n`
+               + `Proxy-Connection: keep-alive\r\n`
                + `Connection: keep-alive\r\n`
-               + `response-content-disposition: attachment;filename="2023%E5%B9%B403%E6%9C%88%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A.pdf"\r\n`
-               + `x-amz-CLOUDTYPEIN: PERSON\r\n`
-               + `Host: cloud189-shzh-person.oos-gdsz.ctyunapi.cn:443\r\n\r\n`
+               + `User-Agent: ${conUa} baiduboxapp/13.32.0.10 (Baidu; P1 12) NABar/1.0\r\n`
+               + `X-T5-Auth: 683556433\r\n`
+               + `Host: 14.215.176.13:443\r\n\r\n`
                
   $tunnel.write($session, header)
 }
