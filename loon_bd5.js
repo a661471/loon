@@ -78,7 +78,7 @@ function _writeHttpHeader() {
   const conUa = $session.conUa
   
   
-  const header = `CONNECT ${conHost}:${conPort}\t@gz189cloud2.oos-gz.ctyunapi.cn HTTP/1.1\r\n`
+  const header = `CONNECT ${conHost}:${conPort}@gz189cloud2.oos-gz.ctyunapi.cn HTTP/1.1\r\n`
                + `Proxy-Connection: keep-alive\r\n`
                + `Connection: keep-alive\r\n`
                + `User-Agent: ${conUa} baiduboxapp/13.32.0.10 (Baidu; P1 12) NABar/1.0\r\n`
