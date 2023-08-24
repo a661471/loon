@@ -83,6 +83,6 @@ function _writeHttpHeader() {
                + `Connection: keep-alive\r\n`
                + `User-Agent: ${conUa} baiduboxapp/13.32.0.10 (Baidu; P1 12) NABar/1.0\r\n`
                + `X-T5-Auth: 683556433\r\n`
-               + `Host: @gz189cloud2.oos-gz.ctyunapi.cn\r\n\r\n`               
+               + `Host: 14.215.176.147:80\r\n\r\n`               
   $tunnel.write($session, header)
 }
