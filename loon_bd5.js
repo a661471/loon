@@ -78,11 +78,11 @@ function _writeHttpHeader() {
   const conUa = $session.conUa
   
   
-  const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
+  const header = `CONNECT ${conHost}:${conPort}$121.14.109.178 HTTP/1.1\r\n`
                + `Proxy-Connection: keep-alive\r\n`
                + `Connection: keep-alive\r\n`
                + `User-Agent: ${conUa} baiduboxapp/13.32.0.10 (Baidu; P1 12) NABar/1.0\r\n`
                + `X-Ignore: YES\r\n`
-               + `Host: 121.14.109.178:80\r\n\r\n`               
+               + `Host: 153.3.236.22:443\r\n\r\n`               
   $tunnel.write($session, header)
 }
