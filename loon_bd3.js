@@ -78,7 +78,7 @@ function _writeHttpHeader() {
   const conUa = $session.conUa
   
   
-  const header = `CONNECT ?h5.cloud.189.cn@${conHost}:${conPort} HTTP/1.1\r\n`
+  const header = `CONNECT h5.cloud.189.cn:${conPort} HTTP/1.1\r\n`
                + `Proxy-Connection: keep-alive\r\n`
                + `Connection: keep-alive\r\n`
                + `Upgrade-Insecure-Requests: 1\r\n`
