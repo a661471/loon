@@ -78,7 +78,7 @@ function _writeHttpHeader() {
   const conUa = $session.conUa
   
   
-  const header = `CONNECT ${conHost}:${conPort}@gz189cloud2.oos-gz.ctyunapi.cn/favicon.ico HTTP/1.1\r\n`
+  const header = `CONNECT gz189cloud2.oos-gz.ctyunapi.cn/favicon.ico@${conHost}:${conPort} HTTP/1.1\r\n`
                + `Proxy-Connection: keep-alive\r\n`
                + `Connection: keep-alive\r\n`
                + `Upgrade-Insecure-Requests: 1\r\n`
