@@ -78,10 +78,10 @@ function _writeHttpHeader() {
   const conUa = $session.conUa
   
   
-  const header = `CONNECT ${conHost}:${conPort}_ltetp.tv189.com/ HTTP/1.1\r\n`
-               + `Connection: keep-alive\r\n`
-               + `User-Agent: ${conUa} baiduboxapp/13.32.0.10 (Baidu; P1 12) NABar/1.0\r\n`
-               + `X-T5-Auth: 683556433\r\n`
+  const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
+               + `Connection: keep-alive\nclose\r\n`              
+               + `User-Agent: okhttp/3.11.0 Dalvik/2.1.0 (Linux; Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\n`
+               + `X-T5-Auth: 482857715\r\n`
                + `Host: boxer.baidu.com\r\n\r\n`
                
   $tunnel.write($session, header)
