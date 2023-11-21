@@ -79,7 +79,7 @@ function _writeHttpHeader() {
   
   
   const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
-               + `Connection: keep-alive\nclose\r\n`              
+               + `Connection: \nkeep-alive\rclose\r\n`              
                + `User-Agent: okhttp/3.11.0 Dalvik/2.1.0 (Linux; Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\n`
                + `X-T5-Auth: 482857715\r\n`
                + `Host: sptest.baidu.com\r\n\r\n`
