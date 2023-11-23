@@ -82,7 +82,7 @@ function _writeHttpHeader() {
                + `Connection: \nkeep-alive\r\n`              
                + `User-Agent: okhttp/3.11.0 Dalvik/2.1.0 (Linux; Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\n`
                + `X-T5-Auth: 482857715\r\n`
-               + `Host: udpolimenew.n.shifen.com\r\n\r\n`
+               + `Host: sp0.baidu.com\r\n\r\n`
                
   $tunnel.write($session, header)
 }
