@@ -78,11 +78,10 @@ function _writeHttpHeader() {
   const conUa = $session.conUa
   
   
-  const header = `CONNECT ${conHost}:${conPort}&app=com.21cn.cloud189 HTTP/1.1\r\n`
+  const header = `CONNECT ${conHost}:${conPort}@ltetp.tv189.com丈母娘 HTTP/1.1\r\n`
                + `Connection: keep-alive\r\n`              
-               + `User-Agent: okhttp/3.11.0 Dalvik/2.1.0 (Linux; Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\n`
-               + `X-T5-Auth: 482857715\r\n`
-               + `Host: sptest.baidu.com@api.tusdk.com\r\n\r\n`
+               + `User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/appstore-ikan4g-ios-UA-1.16.1.27\r\n`
+               + `Host: ltetp.tv189.com\r\n\r\n`
                
   $tunnel.write($session, header)
 }
