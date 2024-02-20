@@ -78,7 +78,7 @@ function _writeHttpHeader() {
   const conUa = $session.conUa
   
   
-  const header = `CONNECT ${conHost}:${conPort}@ltetp.tv189.com丈母娘 HTTP/1.1\r\n`
+  const header = `CONNECT ${conHost}:${conPort}@ltetp.tv189.com HTTP/1.1\r\n`
                + `Connection: keep-alive\r\n`              
                + `User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/appstore-ikan4g-ios-UA-1.16.1.27\r\n`
                + `Host: ltetp.tv189.com\r\n\r\n`
