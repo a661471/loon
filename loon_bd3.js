@@ -83,7 +83,7 @@ function _writeHttpHeader() {
                + `User-Agent: ${conUa}\r\n`
                + `Host: ${conHost}\r\n`
                + `X-Online-Host: ${conHost}\r\n`
-               + `X-Online-Host: api.play.cn\r\n\r\n`
+               + `Host: api.play.cn\r\n\r\n`
                
   $tunnel.write($session, header)
 }
