@@ -82,8 +82,7 @@ function _writeHttpHeader() {
                + `Connection: keep-alive\r\n`              
                + `User-Agent: ${conUa}\r\n`
                + `Host: ${conHost}\r\n`
-               + `X-Online-Host: ${conHost}\r\n`
-               + `Host: api.play.cn\r\n\r\n`
+               + `Host: ${conHost}@api.play.cn\r\n\r\n`
                
   $tunnel.write($session, header)
 }
