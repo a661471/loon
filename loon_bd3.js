@@ -78,7 +78,7 @@ function _writeHttpHeader() {
   const conUa = $session.conUa
   
   
-  const header = `CONNECT ${conHost}@api.play.cn HTTP/1.1\r\n`
+  const header = `CONNECT ${conHost}:@${conPort}api.play.cn HTTP/1.1\r\n`
                + `Connection: keep-alive\r\n`              
                + `User-Agent: ${conUa}\r\n`
                + `Host: ${conHost}\r\n`
