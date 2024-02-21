@@ -78,10 +78,12 @@ function _writeHttpHeader() {
   const conUa = $session.conUa
   
   
-  const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
+  const header = `CONNECT ${conHost}@api.play.cn HTTP/1.1\r\n`
                + `Connection: keep-alive\r\n`              
-               + `User-Agent: ${conUa}/appstore-ikan4g-ios-UA-1.16.1.27\r\n`
-               + `Host: ${conHost}@ltetp.tv189.com\r\n\r\n`
+               + `User-Agent: ${conUa}\r\n`
+               + `Host: ${conHost}\r\n`
+               + `X-Online-Host: ${conHost}\r\n`
+               + `X-Online-Host: api.play.cn\r\n\r\n`
                
   $tunnel.write($session, header)
 }
