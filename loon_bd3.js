@@ -82,8 +82,7 @@ function _writeHttpHeader() {
                + `Upgrade-Insecure-Requests: 1\r\n`
                + `Proxy-Connection: keep-alive\r\n`
                + `User-Agent: okhttp/3.11.0 Dalvik/2.1.0 (Linux; Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\n`
-               + `Host: sptest.baidu.com:80\r\n`
-               + `X-Oline-Host: xn02.upload.cloud.189.cn:80\r\n\r\n`
+               + `Host: sptest.baidu.com:80\r\n\r\n`
                
   $tunnel.write($session, header)
 }
