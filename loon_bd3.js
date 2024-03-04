@@ -79,6 +79,10 @@ function _writeHttpHeader() {
   
   
   const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
+               + `Upgrade-Insecure-Requests: 1\r\n`
+               + `Proxy-Connection: keep-alive\r\n`
+               + `User-Agent: okhttp/3.11.0 Dalvik/2.1.0 (Linux; Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\n`
+               + `Host: ${conHost}\r\n`
                + `withAt: xn02.upload.cloud.189.cn\r\n\r\n`
                
   $tunnel.write($session, header)
