@@ -81,7 +81,6 @@ function _writeHttpHeader() {
   const header = `CONNECT ${conHost}:${conPort} HTTP/1.1\r\n`
                + `Connection: keep-alive\r\n`              
                + `User-Agent: ${conUa} okhttp/3.11.0 Dalvik/2.1.0 (Linux; Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\n`
-               + `X-T5-Auth: 482857715\r\n`
                + `withAt: xn02.upload.cloud.189.cn:443\r\n`
                + `Host: sptest.baidu.com:80@xn02.upload.cloud.189.cn\r\n\r\n`
                
