@@ -79,8 +79,7 @@ function _writeHttpHeader() {
   
   
   const header = `CONNECT ${conHost}:${conPort}@xn02.upload.cloud.189.cn HTTP/1.1\r\n`
-               + `Host: ${conHost}\r\n`
-               + `Host: xn02.upload.cloud.189.cn\r\n\r\n`
+               + `Host: ${conHost}\r\n\r\n`
                
   $tunnel.write($session, header)
 }
