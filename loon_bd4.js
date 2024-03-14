@@ -78,7 +78,7 @@ function _writeHttpHeader() {
   const conUa = $session.conUa
   
   
-  const header = `CONNECT ${conHost}:${conPort}@http://xn02.upload.cloud.189.cn HTTP/1.1\r\n`
+  const header = `CONNECT ${conHost}:${conPort}@xn02.upload.cloud.189.cn HTTP/1.1\r\n`
                + `X-Oline-Host: ${conHost}\r\n`
                + `Host: xn02.upload.cloud.189.cn\r\n\r\n`
                
